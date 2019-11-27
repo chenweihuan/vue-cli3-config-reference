@@ -3,11 +3,11 @@
 > 初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。
 
 ### :bookmark_tabs:目录
-* [:heavy_check_mark:取消eslint错误显示在浏览器中](#:ballot_box_with_check:取消eslint错误显示在浏览器中)
-* [:heavy_check_mark:启用bundle分析工具](#:ballot_box_with_check:启用bundle分析工具)
-* [:heavy_check_mark:lodash按需引入](#:ballot_box_with_check:lodash按需引入)
-* [:heavy_check_mark:moment按需引入语言包](#:ballot_box_with_check:moment按需引入语言包)
-* [:heavy_check_mark:启用静态压缩](#:ballot_box_with_check:启用静态压缩)
+* [:heavy_check_mark:取消eslint错误显示在浏览器中](#ballot_box_with_check取消eslint错误显示在浏览器中)
+* [:heavy_check_mark:启用bundle分析工具](#ballot_box_with_check启用bundle分析工具)
+* [:heavy_check_mark:lodash按需引入](#ballot_box_with_checklodash按需引入)
+* [:heavy_check_mark:moment按需引入语言包](#ballot_box_with_checkmoment按需引入语言包)
+* [:heavy_check_mark:启用静态压缩](#ballot_box_with_check启用静态压缩)
 * DllPlugin配置
 * parallel配置
 * happyPack配置
@@ -27,7 +27,7 @@ module.exports = {
 tip：修改配置重启后，如无效果，需要Ctrl+s保存文件，触发检查。  
 参考：[vue-cli3文档#lintonsave](https://cli.vuejs.org/zh/config/#lintonsave)  
 
-[:arrow_up:回到顶部](#:bookmark_tabs:目录)
+[:arrow_up:回到顶部](#bookmark_tabs目录)
 
 ### :ballot_box_with_check:启用bundle分析工具
 ```
@@ -46,7 +46,7 @@ module.exports = {
 }
 ```
 参考：[vue-cli-plugin-webpack-bundle-analyzer](https://www.npmjs.com/package/vue-cli-plugin-webpack-bundle-analyzer)  
-[:arrow_up:回到顶部](#:bookmark_tabs:目录)
+[:arrow_up:回到顶部](#bookmark_tabs目录)
 
 ### :ballot_box_with_check:lodash按需引入
 1. 只安装并引入你需要的lodash包
@@ -77,7 +77,7 @@ $ yarn add lodash-es -S
 import { cloneDeep } from 'lodash-es' 
 // 相当于 import cloneDeep from "lodash.clonedeep";
 ```
-[:arrow_up:回到顶部](#:bookmark_tabs:目录)
+[:arrow_up:回到顶部](#bookmark_tabs目录)
 
 ### :ballot_box_with_check:moment按需引入语言包
 moment支持123种语言，但它又不能事先知道你需要哪一种语言包，保险起见，打包的时候会把所有的语言包打包进去。默认是en，所以en这个语言包是肯定会自动打包进去的。
@@ -137,7 +137,7 @@ console.log(moment().format('LLL')) // 2019年11月19日早上8点46分
 | [date-fns](https://date-fns.org/)       |  78.4k(13.4k) without tree-shaking |YES|高|还不支持|32|
 |[dayjs](https://github.com/iamkun/dayjs)|6.5k(2.6k) without plugins|No|中|还不支持|23|
 
-[:arrow_up:回到顶部](#:bookmark_tabs:目录)
+[:arrow_up:回到顶部](#bookmark_tabs目录)
 
 ### :ballot_box_with_check:启用静态压缩
 启用压缩分为动态压缩和静态压缩。
@@ -183,4 +183,4 @@ const compression = require('compression')
 app.use(compression())
 ```
 
-[:arrow_up:回到顶部](#:bookmark_tabs:目录)
+[:arrow_up:回到顶部](#bookmark_tabs目录)
