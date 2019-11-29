@@ -11,7 +11,7 @@
 * DllPlugin配置
 * parallel配置
 * happyPack配置
-* sourceMap配置
+* [:heavy_check_mark:启用js和css的sourceMap](#ballot_box_with_check启用js和css的sourceMap)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
@@ -182,5 +182,42 @@ gzip_vary  on;
 const compression = require('compression')
 app.use(compression())
 ```
+
+[:arrow_up:回到顶部](#bookmark_tabs目录)
+
+### :heavy_check_mark:启用js和css的sourceMap
+#### css.sourceMap
+为CSS开启sourceMap后，在检索元素查看css时，可以精确知道来自于哪一个文件，点击文件名，可以到达Sources面板查看该文件。
+
+<div align="center"><img src="./docs/imgs/unSourceMap.jpg" width="600"/></div>
+<div align="center"><img src="./docs/imgs/sourceMap.jpg" width="600"/></div>
+
+```js
+// vue.config.js
+module.exports = {
+  css: {
+    sourceMap: false
+  }
+}
+```
+参考：[vue-cli文档#css-sourcemap](https://cli.vuejs.org/zh/config/#css-sourcemap)
+
+#### Javascript.sourceMap
+生产环境中，vue-cli是默认开启的，为Javascript开启sourceMap后，构建时会生成.map文件，可以帮助你在生产环境调试代码，当然，开启sourceMap后就会影响项目的构建速度。
+<div align="center"><img src="./docs/imgs/jsSourceMap.png" width="600"/></div>
+
+```js
+module.exports = {
+  productionSourceMap: false,  // 生产环境禁用
+  configureWebpack: {
+    devtool: false // 开发环境禁用
+  }
+}
+```
+参考：  
+[配置 js.sourceMap](https://github.com/vuejs/vue-cli/issues/2200)  
+[vue-cli文档#productionsourcemap](https://cli.vuejs.org/zh/config/#productionsourcemap)  
+[更多devtool配置](https://webpack.js.org/configuration/devtool/#devtool)  
+
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)
