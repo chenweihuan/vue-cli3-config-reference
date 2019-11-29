@@ -185,7 +185,7 @@ app.use(compression())
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)
 
-### :heavy_check_mark:启用js和css的sourceMap
+### :ballot_box_with_check:启用js和css的sourceMap
 #### css.sourceMap
 为CSS开启sourceMap后，在检索元素查看css时，可以精确知道来自于哪一个文件，点击文件名，可以到达Sources面板查看该文件。
 
