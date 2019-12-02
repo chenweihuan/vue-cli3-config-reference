@@ -1,6 +1,8 @@
 ## vue-cli3的配置参考
 
-> 初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。
+> :sunny: 初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。  
+
+> :soon: [vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续vue-cli4的分支，记录总结config-reference。  
 
 ### :bookmark_tabs:目录
 * [:heavy_check_mark:取消eslint错误显示在浏览器中](#ballot_box_with_check取消eslint错误显示在浏览器中)
@@ -8,9 +10,7 @@
 * [:heavy_check_mark:lodash按需引入](#ballot_box_with_checklodash按需引入)
 * [:heavy_check_mark:moment按需引入语言包](#ballot_box_with_checkmoment按需引入语言包)
 * [:heavy_check_mark:启用静态压缩](#ballot_box_with_check启用静态压缩)
-* DllPlugin配置
-* parallel配置
-* happyPack配置
+* [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
 * [:heavy_check_mark:启用js和css的sourceMap](#ballot_box_with_check启用js和css的sourceMap)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -189,8 +189,8 @@ app.use(compression())
 #### css.sourceMap
 为CSS开启sourceMap后，在检索元素查看css时，可以精确知道来自于哪一个文件，点击文件名，可以到达Sources面板查看该文件。
 
-<div align="center"><img src="./docs/imgs/unSourceMap.jpg" width="600"/></div>
-<div align="center"><img src="./docs/imgs/sourceMap.jpg" width="600"/></div>
+<div align="center"><img src="./docs/imgs/unSourceMap.jpg" width="90%"/></div>
+<div align="center"><img src="./docs/imgs/sourceMap.jpg" width="90%"/></div>
 
 ```js
 // vue.config.js
@@ -204,7 +204,7 @@ module.exports = {
 
 #### Javascript.sourceMap
 生产环境中，vue-cli是默认开启的，为Javascript开启sourceMap后，构建时会生成.map文件，可以帮助你在生产环境调试代码，当然，开启sourceMap后就会影响项目的构建速度。
-<div align="center"><img src="./docs/imgs/jsSourceMap.png" width="600"/></div>
+<div align="center"><img src="./docs/imgs/jsSourceMap.png" width="90%"/></div>
 
 ```js
 module.exports = {
@@ -220,4 +220,88 @@ module.exports = {
 [更多devtool配置](https://webpack.js.org/configuration/devtool/#devtool)  
 
 
+[:arrow_up:回到顶部](#bookmark_tabs目录)
+
+### :ballot_box_with_check:DllPlugin配置
+vue 开发过程中，保存一次就会编译一次。利用DllPlugin，把一些库（一般不会去改动）提取出来，只编译修改的js文件，加快编译的速度。
+```
+yarn add webpack-cli@^3.2.3 add-asset-html-webpack-plugin@^3.1.3 clean-webpack-plugin@^3.0.0  -D
+```
+在项目根目录下新建 webpack.dll.conf.js：
+```js
+// webpack.dll.conf.js
+const path = require('path')
+const webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+// dll文件存放的目录
+const dllPath = 'public/vendor'
+
+module.exports = {
+  entry: {
+    // 需要提取的库文件
+    vendor: ['vue', 'vue-router', 'vuex', 'axios', 'element-ui']
+  },
+  output: {
+    path: path.join(__dirname, dllPath),
+    filename: '[name].dll.js',
+    // vendor.dll.js中暴露出的全局变量名
+    // 保持与 webpack.DllPlugin 中名称一致
+    library: '[name]_[hash]'
+  },
+  plugins: [
+    // 清除之前的dll文件
+    new CleanWebpackPlugin(),
+    // 设置环境变量
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: 'production'
+      }
+    }),
+    // manifest.json 描述动态链接库包含了哪些内容
+    new webpack.DllPlugin({
+      path: path.join(__dirname, dllPath, '[name]-manifest.json'),
+      // 保持与 output.library 中名称一致
+      name: '[name]_[hash]',
+      context: process.cwd()
+    })
+  ]
+}
+
+```
+生成 dll：添加dll选项，并运行```yarn run dll```
+```json
+// package.json
+"scripts": {
+    ...
+    "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
+},
+```
+为了节约编译的时间，这时间我们需要告诉 webpack 公共库文件已经编译好了，减少 webpack 对公共库的编译时间。
+```js
+// vue.config.js
+const path = require('path')
+const webpack = require('webpack')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+
+module.exports = {
+    ...
+    configureWebpack: {
+        plugins: [
+          new webpack.DllReferencePlugin({
+            context: process.cwd(),
+            manifest: require('./public/vendor/vendor-manifest.json')
+          }),
+          // 将 dll 注入到 生成的 html 模板中
+          new AddAssetHtmlPlugin({
+            filepath: path.resolve(__dirname, './public/vendor/*.js'),// dll文件位置
+            publicPath: './vendor',// dll 引用路径
+            outputPath: './vendor'// dll最终输出的目录
+          })
+        ]
+    }
+}
+```
+疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...
+参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)
 [:arrow_up:回到顶部](#bookmark_tabs目录)
