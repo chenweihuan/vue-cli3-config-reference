@@ -4,14 +4,22 @@
 
 > :soon: [vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续vue-cli4的分支，记录总结config-reference。  
 
+> :on: 以下例子均基于@vue/cli v3.11.0
+```
+$ vue --version
+3.11.0
+```
+
 ### :bookmark_tabs:目录
 * [:heavy_check_mark:取消eslint错误显示在浏览器中](#ballot_box_with_check取消eslint错误显示在浏览器中)
 * [:heavy_check_mark:启用bundle分析工具](#ballot_box_with_check启用bundle分析工具)
 * [:heavy_check_mark:lodash按需引入](#ballot_box_with_checklodash按需引入)
 * [:heavy_check_mark:moment按需引入语言包](#ballot_box_with_checkmoment按需引入语言包)
 * [:heavy_check_mark:启用静态压缩](#ballot_box_with_check启用静态压缩)
-* [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
 * [:heavy_check_mark:启用js和css的sourceMap](#ballot_box_with_check启用js和css的sourceMap)
+* [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
+* [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
+* [:heavy_check_mark:去除console.log](#ballot_box_with_check去除console.log)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
@@ -305,3 +313,93 @@ module.exports = {
 疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...
 参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)
 [:arrow_up:回到顶部](#bookmark_tabs目录)
+
+
+### :ballot_box_with_check:添加别名alias
+1. 配置configureWebpack
+```js
+const path = require('path')
+const resolve = dir => path.join(__dirname, dir)
+
+module.exports = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@components': resolve('src/components'),
+        '@': resolve('src')
+      }
+    }
+  }
+}
+```
+
+2. 配置chainWebpack
+```js
+const path = require('path')
+const resolve = dir => path.join(__dirname, dir)
+
+module.exports = {
+  chainWebpack:config => {
+    config.resolve.alias
+      .set('@components',resolve('src/components'))
+      .set('@',resolve('src'))
+  }
+}
+```
+
+参考：[how to set alias](https://github.com/vuejs/vue-cli/issues/2398)  
+[:arrow_up:回到顶部](#bookmark_tabs目录)  
+
+### :ballot_box_with_check:去除console.log
+1. 使用 babel-plugin-transform-remove-console 插件
+```
+yarn add -D babel-plugin-transform-remove-console
+```
+添加babel配置：
+```js
+const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
+const plugins = [];
+if (IS_PROD) plugins.push("transform-remove-console")
+
+module.exports = {
+  presets: [
+    '@vue/cli-plugin-babel/preset'
+  ],
+  plugins
+}
+```
+
+2. 使用uglifyjs-webpack-plugin
+```
+yarn add uglifyjs-webpack-plugin -D
+```
+添加vue.config.js：
+```js
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
+
+module.exports = {
+  configureWebpack: config => {
+    if (IS_PROD) {
+      const plugins = []
+      plugins.push(
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_console: true, //注释console.log
+              drop_debugger: false,
+              pure_funcs: ['console.log'] //移除console
+            }
+          },
+          sourceMap: false,
+          parallel: true
+        })
+      )
+      config.plugins = [...config.plugins, ...plugins]
+    }
+  }
+}
+```
+
+参考：[去除console.log](https://github.com/staven630/vue-cli4-config/tree/vue-cli3#log)  
+[:arrow_up:回到顶部](#bookmark_tabs目录)  
