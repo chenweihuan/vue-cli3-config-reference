@@ -19,7 +19,7 @@ $ vue --version
 * [:heavy_check_mark:启用js和css的sourceMap](#ballot_box_with_check启用js和css的sourceMap)
 * [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
 * [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
-* [:heavy_check_mark:去除console.log](#ballot_box_with_check去除console.log)
+* [:heavy_check_mark:去除console.log](#ballot_box_with_check去除consolelog)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
