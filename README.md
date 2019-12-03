@@ -2,7 +2,7 @@
 
 > :sunny: 初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。  
 
-> :soon: [vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续vue-cli4的分支，记录总结config-reference。  
+> :soon: [vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续会新开vue-cli4的分支，记录总结config-reference。  
 
 > :on: 以下例子均基于@vue/cli v3.11.0
 ```
@@ -281,7 +281,6 @@ module.exports = {
 ```json
 // package.json
 "scripts": {
-    ...
     "dll": "webpack -p --progress --config ./webpack.dll.conf.js"
 },
 ```
@@ -310,8 +309,8 @@ module.exports = {
     }
 }
 ```
-疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...
-参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)
+疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...  
+参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)  
 [:arrow_up:回到顶部](#bookmark_tabs目录)
 
 
