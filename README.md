@@ -409,7 +409,7 @@ module.exports = {
 [:arrow_up:回到顶部](#bookmark_tabs目录)  
 
 ### :ballot_box_with_check:配置CSS Modules
-@vue/cli已经集成了CSS Modules，可以通过 ```<style module>``` 达到开箱即用。但如果想去掉文件名中的 .module或自定义生成 CSS Modules 模块的类名，还需要配置vue.config,js。  
+@vue/cli已经集成了CSS Modules，可以通过 ```<style module>``` 达到开箱即用。但如果想去掉文件名中的 .module或自定义生成 CSS Modules 模块的类名，还需要配置vue.config.js。  
 ```js
 // vue.config.js
 module.exports = {
@@ -438,6 +438,7 @@ ls\dist\validate.js:85:11)
     at Object.loader (C:\Users\chenweihuan\Desktop\demo\vue-demo1\node_modules\css-loader\dist\index.js:34:2
 8)
 ```
+推荐阅读：[深入理解vue的scoped和module原理](https://juejin.im/post/5da2aa066fb9a04e3902e9dc)
 参考： [vue-cli#css-modules](https://cli.vuejs.org/zh/guide/css.html#css-modules)
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)  
