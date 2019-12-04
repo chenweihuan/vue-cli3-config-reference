@@ -34,6 +34,7 @@ module.exports = {
 }
 ```
 tip：修改配置重启后，如无效果，需要Ctrl+s保存文件，触发检查。  
+
 参考：[vue-cli3文档#lintonsave](https://cli.vuejs.org/zh/config/#lintonsave)  
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)
@@ -311,7 +312,8 @@ module.exports = {
     }
 }
 ```
-疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...  
+疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...
+
 参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)  
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)
@@ -438,7 +440,7 @@ ls\dist\validate.js:85:11)
     at Object.loader (C:\Users\chenweihuan\Desktop\demo\vue-demo1\node_modules\css-loader\dist\index.js:34:2
 8)
 ```
-推荐阅读：[深入理解vue的scoped和module原理](https://juejin.im/post/5da2aa066fb9a04e3902e9dc)
+推荐阅读：[深入理解vue的scoped和module原理](https://juejin.im/post/5da2aa066fb9a04e3902e9dc)  
 参考： [vue-cli#css-modules](https://cli.vuejs.org/zh/guide/css.html#css-modules)
 
 [:arrow_up:回到顶部](#bookmark_tabs目录)  
