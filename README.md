@@ -20,6 +20,7 @@ $ vue --version
 * [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
 * [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
 * [:heavy_check_mark:去除console.log](#ballot_box_with_check去除consolelog)
+* [:heavy_check_mark:配置CSS Modules](#ballot_box_with_check配置CSSModules)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
@@ -54,6 +55,7 @@ module.exports = {
 }
 ```
 参考：[vue-cli-plugin-webpack-bundle-analyzer](https://www.npmjs.com/package/vue-cli-plugin-webpack-bundle-analyzer)  
+
 [:arrow_up:回到顶部](#bookmark_tabs目录)
 
 ### :ballot_box_with_check:lodash按需引入
@@ -311,6 +313,7 @@ module.exports = {
 ```
 疑惑：添加DllPlugin后，每次保存后重新编译时间确实减少了，从平均3.6s降到2.4s。但是运行```yarn run serve```，编译时间几乎一样。后续还得探索探索...  
 参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)  
+
 [:arrow_up:回到顶部](#bookmark_tabs目录)
 
 
@@ -347,6 +350,7 @@ module.exports = {
 ```
 
 参考：[how to set alias](https://github.com/vuejs/vue-cli/issues/2398)  
+
 [:arrow_up:回到顶部](#bookmark_tabs目录)  
 
 ### :ballot_box_with_check:去除console.log
@@ -401,4 +405,40 @@ module.exports = {
 ```
 
 参考：[去除console.log](https://github.com/staven630/vue-cli4-config/tree/vue-cli3#log)  
+
 [:arrow_up:回到顶部](#bookmark_tabs目录)  
+
+### :ballot_box_with_check:配置CSS Modules
+@vue/cli已经集成了CSS Modules，可以通过 ```<style module>``` 达到开箱即用。但如果想去掉文件名中的 .module或自定义生成 CSS Modules 模块的类名，还需要配置vue.config,js。  
+```js
+// vue.config.js
+module.exports = {
+  css: {
+    requireModuleExtension: false, // 去掉文件名中的 .module
+    loaderOptions: {
+      css: {
+        modules: {
+          // 自定义类名，name：CSS Modules所在的文件名；local：原定的类名
+          localIdentName: '[name]__[local]___[hash:base64:5]' 
+        }
+      }
+    }
+  }
+}
+```
+注意：在将css-loader升级到版本3之后，```yarn run serve```之后会报错，认为localIdentName是无效的选项。是因为localIdentName选项需要嵌套在modules选项中。[update yarn packages & update get_style_rule to handle css-loader@3.0.0](https://github.com/rails/webpacker/pull/2130) 
+```
+Module build failed (from ./node_modules/css-loader/dist/cjs.js):
+ValidationError: Invalid options object. CSS Loader has been initialised using an options object that does n
+ot match the API schema.
+ - options has an unknown property 'localIdentName'. These properties are valid:
+   object { url?, import?, modules?, sourceMap?, importLoaders?, localsConvention?, onlyLocals? }
+    at validate (C:\Users\chenweihuan\Desktop\demo\vue-demo1\node_modules\css-loader\node_modules\schema-uti
+ls\dist\validate.js:85:11)
+    at Object.loader (C:\Users\chenweihuan\Desktop\demo\vue-demo1\node_modules\css-loader\dist\index.js:34:2
+8)
+```
+参考： [vue-cli#css-modules](https://cli.vuejs.org/zh/guide/css.html#css-modules)
+
+[:arrow_up:回到顶部](#bookmark_tabs目录)  
+
