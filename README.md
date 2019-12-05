@@ -21,6 +21,8 @@ $ vue --version
 * [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
 * [:heavy_check_mark:去除console.log](#ballot_box_with_check去除consolelog)
 * [:heavy_check_mark:配置CSS Modules](#ballot_box_with_check配置css-modules)
+* [:heavy_check_mark:向所有 Scss 样式传入共享的全局变量](#ballot_box_with_check向所有-scss-样式传入共享的全局变量)
+* [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
@@ -37,7 +39,7 @@ tip：修改配置重启后，如无效果，需要Ctrl+s保存文件，触发�
 
 参考：[vue-cli3文档#lintonsave](https://cli.vuejs.org/zh/config/#lintonsave)  
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:启用bundle分析工具
 ```
@@ -57,7 +59,7 @@ module.exports = {
 ```
 参考：[vue-cli-plugin-webpack-bundle-analyzer](https://www.npmjs.com/package/vue-cli-plugin-webpack-bundle-analyzer)  
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:lodash按需引入
 1. 只安装并引入你需要的lodash包
@@ -88,7 +90,7 @@ $ yarn add lodash-es -S
 import { cloneDeep } from 'lodash-es' 
 // 相当于 import cloneDeep from "lodash.clonedeep";
 ```
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:moment按需引入语言包
 moment支持123种语言，但它又不能事先知道你需要哪一种语言包，保险起见，打包的时候会把所有的语言包打包进去。默认是en，所以en这个语言包是肯定会自动打包进去的。
@@ -148,7 +150,7 @@ console.log(moment().format('LLL')) // 2019年11月19日早上8点46分
 | [date-fns](https://date-fns.org/)       |  78.4k(13.4k) without tree-shaking |YES|高|还不支持|32|
 |[dayjs](https://github.com/iamkun/dayjs)|6.5k(2.6k) without plugins|No|中|还不支持|23|
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:启用静态压缩
 启用压缩分为动态压缩和静态压缩。
@@ -194,7 +196,7 @@ const compression = require('compression')
 app.use(compression())
 ```
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:启用js和css的sourceMap
 #### css.sourceMap
@@ -231,7 +233,7 @@ module.exports = {
 [更多devtool配置](https://webpack.js.org/configuration/devtool/#devtool)  
 
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:DllPlugin配置
 vue 开发过程中，保存一次就会编译一次。利用DllPlugin，把一些库（一般不会去改动）提取出来，只编译修改的js文件，加快编译的速度。
@@ -316,7 +318,7 @@ module.exports = {
 
 参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)  
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 
 ### :ballot_box_with_check:添加别名alias
@@ -353,7 +355,7 @@ module.exports = {
 
 参考：[how to set alias](https://github.com/vuejs/vue-cli/issues/2398)  
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)  
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
 ### :ballot_box_with_check:去除console.log
 1. 使用 babel-plugin-transform-remove-console 插件
@@ -408,7 +410,7 @@ module.exports = {
 
 参考：[去除console.log](https://github.com/staven630/vue-cli4-config/tree/vue-cli3#log)  
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)  
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
 ### :ballot_box_with_check:配置CSS Modules
 @vue/cli已经集成了CSS Modules，可以通过 ```<style module>``` 达到开箱即用。但如果想去掉文件名中的 .module或自定义生成 CSS Modules 模块的类名，还需要配置vue.config.js。  
@@ -443,5 +445,81 @@ ls\dist\validate.js:85:11)
 推荐阅读：[深入理解vue的scoped和module原理](https://juejin.im/post/5da2aa066fb9a04e3902e9dc)  
 参考： [vue-cli#css-modules](https://cli.vuejs.org/zh/guide/css.html#css-modules)
 
-[:arrow_up:回到顶部](#bookmark_tabs目录)  
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
+
+### :ballot_box_with_check:向所有 Scss 样式传入共享的全局变量
+使用scss需要安装sass-loader和node-sass：
+```
+yarn add sass-loader node-sass -D
+```
+配置vue.config.js：
+```js
+// vue.config.js
+module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        // 假设在src/styles有两个文件：global.scss和app.scss
+        // @/ 是 src/ 的别名
+        // `scss` 语法会要求语句结尾必须有分号，不然会报错
+        prependData: `
+          @import "~@/styles/global.scss";
+          @import "~@/styles/app.scss";
+        `
+      },
+    }
+  }
+}
+```
+scss全局变量的使用：
+``` scss
+// app.scss
+$color: blue;
+```
+```html
+<!-- App.vue -->
+<style lang="scss">
+.blue{
+  color: $color;
+}
+</style>
+```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:向所有 Stylus 样式传入共享的全局变量
+使用stylus需要安装stylus和stylus-loader：
+```
+yarn add stylus stylus-loader -D
+```
+配置vue.config.js：
+```js
+// vue.config.js
+module.exports = {
+  css: {
+    loaderOptions: {
+      stylus: {
+        // 假设在src/styles有两个文件：mixins.styl和app.styl
+        import: [
+          '~@/styles/mixins.styl',
+          '~@/styles/app.styl'
+        ]
+      }
+    }
+  }
+}
+```
+stylus全局变量的使用：
+```styl
+// app.styl
+font = 20px;
+```
+```html
+<style lang="stylus">
+.font {
+  font-size: font;
+}
+</style>
+```
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
