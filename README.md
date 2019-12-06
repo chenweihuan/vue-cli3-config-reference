@@ -21,8 +21,11 @@ $ vue --version
 * [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
 * [:heavy_check_mark:去除console.log](#ballot_box_with_check去除consolelog)
 * [:heavy_check_mark:配置CSS Modules](#ballot_box_with_check配置css-modules)
+* [:heavy_check_mark:向所有 Less 样式传入共享的全局变量](#ballot_box_with_check向所有-less-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Scss 样式传入共享的全局变量](#ballot_box_with_check向所有-scss-样式传入共享的全局变量)
+* [:heavy_check_mark:向所有 Sass 样式传入共享的全局变量](#ballot_box_with_check向所有-sass-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
+
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
@@ -447,13 +450,70 @@ ls\dist\validate.js:85:11)
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
+### :ballot_box_with_check:向所有 Less 样式传入共享的全局变量
+使用less需要安装less和less-loader：
+```
+yarn add less less-loader -D
+// 示例安装的版本："less": "^3.10.3", "less-loader": "^5.0.0"
+```
+1. 配置less.globalVars
+```js
+module.exports = {
+  css: {
+    loaderOptions: {
+      less: {
+        globalVars: {
+          primary: 'blue'
+        }
+      }
+    }
+  }
+}
+```
+less全局变量的使用：
+```html
+<style lang="less">
+.color {
+  color: @primary;
+}
+</style>
+```
+```less
+// global.less
+@primary:red;
+```
+2. 利用style-resources-loader，简单粗暴（墙裂推荐）：
+```
+vue add style-resources-loader
+```
+安装时会让你选择css的语言，选择less后，@vue/cli还会在vue.config.js自动生成一段样例代码，添加上路径即可：
+```js
+// vue.config.js
+const path = require('path')
+
+module.exports = {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, "src/styles/global.less")]
+    }
+  }
+}
+```
+
+参考：  
+[vue-cli-plugin-style-resources-loader](https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader)    
+[向预处理器 Loader 传递选项](https://cli.vuejs.org/zh/guide/css.html#%E5%90%91%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8-loader-%E4%BC%A0%E9%80%92%E9%80%89%E9%A1%B9)
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
 ### :ballot_box_with_check:向所有 Scss 样式传入共享的全局变量
 使用scss需要安装sass-loader和node-sass：
 ```
 yarn add sass-loader node-sass -D
+// 示例安装的版本："sass-loader": "^8.0.0", "node-sass": "^4.13.0"
 ```
-配置vue.config.js：
+1. 配置vue.config.js：
 ```js
 // vue.config.js
 module.exports = {
@@ -486,14 +546,63 @@ $color: blue;
 </style>
 ```
 
+2. 使用style-resources-loader即可，简单粗暴：
+```
+vue add style-resources-loader
+```
+```js
+const path = require('path')
+
+module.exports = {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'scss',
+      patterns: [path.resolve(__dirname,'src/styles/app.scss')]
+    }
+  }
+}
+```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:向所有 Sass 样式传入共享的全局变量
+使用style-resources-loader即可，简单粗暴：
+```
+vue add style-resources-loader
+```
+```js
+const path = require('path')
+
+module.exports = {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'sass',
+      patterns: [path.resolve(__dirname,'src/styles/app.sass')]
+    }
+  }
+}
+```
+sass的全局变量使用：
+```scss
+// app.sass
+$primary: green;
+```
+```html
+<!-- App.vue -->
+<style lang="sass">
+.container 
+  color: $primary;
+</style>
+```
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
 ### :ballot_box_with_check:向所有 Stylus 样式传入共享的全局变量
 使用stylus需要安装stylus和stylus-loader：
 ```
 yarn add stylus stylus-loader -D
+// 示例安装的版本："stylus": "^0.54.7", "stylus-loader": "^3.0.2"
 ```
-配置vue.config.js：
+1. 配置vue.config.js：
 ```js
 // vue.config.js
 module.exports = {
@@ -522,4 +631,22 @@ font = 20px;
 }
 </style>
 ```
+
+2. 使用style-resources-loader即可，简单粗暴：
+```
+vue add style-resources-loader
+```
+```js
+const path = require('path')
+
+module.exports = {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'stylus',
+      patterns: [path.resolve(__dirname,'src/styles/mixins.styl')]
+    }
+  }
+}
+```
+
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
