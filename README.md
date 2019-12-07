@@ -199,6 +199,18 @@ const compression = require('compression')
 app.use(compression())
 ```
 
+如需启用开发环境的静态压缩，配置devServer即可：
+```js
+// vue.config.js
+module.exports = {
+  devServer:{
+    compress: true
+  }
+}
+```
+
+参考：[webpack官网 devServer.compress](https://webpack.docschina.org/configuration/dev-server/#devserver-compress)  
+
 [:arrow_up:回到顶部](#vue-cli3的配置参考)
 
 ### :ballot_box_with_check:启用js和css的sourceMap
@@ -527,7 +539,7 @@ module.exports = {
           @import "~@/styles/global.scss";
           @import "~@/styles/app.scss";
         `
-      },
+      }
     }
   }
 }
@@ -551,6 +563,7 @@ $color: blue;
 vue add style-resources-loader
 ```
 ```js
+// vue.config.js
 const path = require('path')
 
 module.exports = {
@@ -571,6 +584,7 @@ module.exports = {
 vue add style-resources-loader
 ```
 ```js
+// vue.config.js
 const path = require('path')
 
 module.exports = {
@@ -637,6 +651,7 @@ font = 20px;
 vue add style-resources-loader
 ```
 ```js
+// vue.config.js
 const path = require('path')
 
 module.exports = {
