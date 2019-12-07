@@ -25,6 +25,7 @@ $ vue --version
 * [:heavy_check_mark:向所有 Scss 样式传入共享的全局变量](#ballot_box_with_check向所有-scss-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Sass 样式传入共享的全局变量](#ballot_box_with_check向所有-sass-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
+* [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -662,6 +663,27 @@ module.exports = {
     }
   }
 }
+```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:配置proxy代理解决跨域
+如果你的前端应用和后端 API 服务器没有运行在同一个主机上，会出现跨域问题，你需要在开发环境下将 API 请求代理到 API 服务器。
+```js
+// vue.config.js
+module.exports = {
+  devServer: {
+    open: false, // 是否打开浏览器
+    host: "0.0.0.0", // 可让你的应用跑在不同的机器上，使用localhost或IP访问
+    proxy: {
+      // 仅代理/api和/api2开头的接口
+      "/(api|api2)": {
+        target:
+          "http://...:4000" // 目标代理接口地址
+      }
+    }
+  }
+};
 ```
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
