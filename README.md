@@ -26,6 +26,7 @@ $ vue --version
 * [:heavy_check_mark:向所有 Sass 样式传入共享的全局变量](#ballot_box_with_check向所有-sass-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
 * [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
+* [:heavy_check_mark:解决第三方包的IE兼容](#ballot_box_with_check解决第三方包的IE兼容)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -685,5 +686,31 @@ module.exports = {
   }
 };
 ```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:解决第三方包的IE兼容
+使用```vue create```构建项目后，已经能解决本地开发的IE兼容问题，但并不能解决第三方库的IE兼容问题。```@babel/polyfill```即将被废弃，使用```core-js```和```regenerator-runtime```代替。
+```
+yarn add core-js regenerator-runtime -S
+```
+```js
+// main.js
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+```
+```js
+// .babelrc
+module.exports = {
+  presets: [
+    ['@vue/cli-plugin-babel/preset', { useBuiltIns: 'entry' }]
+  ]
+}
+```
+
+- [ ]实现core-js按需引入
+
+参考：
+[core-js @babel/polyfill](https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md#babelpolyfill)  
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
