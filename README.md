@@ -708,7 +708,7 @@ module.exports = {
 }
 ```
 
-- [ ]实现core-js按需引入
+- [ ] 实现core-js按需引入
 
 参考：
 [core-js @babel/polyfill](https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md#babelpolyfill)  
