@@ -26,7 +26,7 @@ $ vue --version
 * [:heavy_check_mark:向所有 Sass 样式传入共享的全局变量](#ballot_box_with_check向所有-sass-样式传入共享的全局变量)
 * [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
 * [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
-* [:heavy_check_mark:解决第三方包的IE兼容](#ballot_box_with_check解决第三方包的IE兼容)
+* [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -377,7 +377,7 @@ module.exports = {
 ### :ballot_box_with_check:去除console.log
 1. 使用 babel-plugin-transform-remove-console 插件
 ```
-yarn add -D babel-plugin-transform-remove-console
+yarn add babel-plugin-transform-remove-console -D
 ```
 添加babel配置：
 ```js
@@ -689,8 +689,9 @@ module.exports = {
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:解决第三方包的IE兼容
-使用```vue create```构建项目后，已经能解决本地开发的IE兼容问题，但并不能解决第三方库的IE兼容问题。```@babel/polyfill```即将被废弃，使用```core-js```和```regenerator-runtime```代替。
+### :ballot_box_with_check:解决第三方包的IE11兼容
+使用```vue create```构建项目后，已经能解决本地开发的IE11兼容问题，但并不能解决第三方库的IE11兼容问题。```@babel/polyfill```即将被废弃，使用```core-js```和```regenerator-runtime```代替。
+1. 全局引入
 ```
 yarn add core-js regenerator-runtime -S
 ```
@@ -708,9 +709,19 @@ module.exports = {
 }
 ```
 
-- [ ]实现core-js按需引入
+2. 按需引入  
+默认情况下 babel-loader 会忽略所有 node_modules 中的文件。如果你想要通过 Babel 显式转译一个依赖，可以在transpileDependencies这个选项中列出来。假如是因为引入[vuex-pathify包的问题](https://github.com/davestewart/vuex-pathify/issues/59)，配置如下：
+```js
+// vue.config.js
+module.exports = {
+  transpileDependencies: [
+    'vuex-pathify'
+  ]
+}
+```
 
-参考：
+参考：  
 [core-js @babel/polyfill](https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md#babelpolyfill)  
+[vue-cli文档 - transpileDependencies](https://cli.vuejs.org/zh/config/#transpiledependencies)  
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
