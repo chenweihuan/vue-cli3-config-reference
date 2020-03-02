@@ -27,6 +27,7 @@ $ vue --version
 * [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
 * [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
 * [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
+* [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -723,5 +724,87 @@ module.exports = {
 参考：  
 [core-js @babel/polyfill](https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md#babelpolyfill)  
 [vue-cli文档 - transpileDependencies](https://cli.vuejs.org/zh/config/#transpiledependencies)  
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check使用web worker
+在vue里使用web worker，下面是一个构建部门树的核心代码：
+```js
+// tree.worker.js
+const nest = (items, code = 0, link = 'parentCode') => { // code就是老爸的code，大型认爹现场
+  return items
+    .filter(v => v[link] === code)
+    .map(v => ({ ...v, children: nest(items, v.code) }))
+}
+
+self.addEventListener('message', (e) => { // self代表子线程自身，即子线程的全局对象。
+  let { data } = e
+  let { type, root } = data
+  if (type === 'BUILD') {
+    const tree = nest(root)
+    self.postMessage({
+      type,
+      payload: {
+        root: tree
+      }
+    })
+  }
+}, false)
+
+// App.vue
+import treeWorker from './tree.worker.js'
+let worker = new treeWorker()
+export default {
+  mounted () {
+    worker = new treeWorker()
+    worker.addEventListener('message', this.handlerMessage)
+    
+    // 清除worker监听
+    this.$once('hook:beforeDestroy',()=>{
+      worker.removeEventListener('message',this.handlerMessage)
+      worker.terminate()
+    })
+
+    // 请求后台数据拿到原始部门data
+    setTimeout(() => {
+      worker.postMessage({
+        type: 'BUILD',
+        root: data
+      })
+    })
+  },
+  methods: {
+    handlerMessage(e){
+      console.log(e)
+    }
+  }
+}
+```
+安装worker-loader，否则会报错```"export 'default' (imported as 'treeWorker') was not found in './tree.worker'```：
+```
+yarn add worker-loader -D
+```
+修改vue.config.js配置：
+```js
+module.exports = {
+  lintOnSave:false,
+  chainWebpack: config => {
+    // 解决重新刷新页面或者重开启devServe都只取缓存，xx.work.js不更新的问题。
+    // 具体讨论参考issues：https://github.com/webpack-contrib/worker-loader/issues/195
+    config.module.rule('js').exclude.add(/\.worker\.js$/)
+    
+    // 使用worker-loader编译.worker.js文件
+    config.module
+      .rule('worker')
+      .test(/\.worker\.js$/)
+      .use('worker-loader')
+      .loader('worker-loader')
+      .options({
+        name: '[name].worker.js'
+      })
+      .end()
+  }
+}
+```
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
