@@ -727,7 +727,7 @@ module.exports = {
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check使用web worker
+### :ballot_box_with_check:使用web worker
 在vue里使用web worker，下面是一个构建部门树的核心代码：
 ```js
 // tree.worker.js
