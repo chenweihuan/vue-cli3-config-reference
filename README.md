@@ -787,7 +787,6 @@ yarn add worker-loader -D
 ```js
 // vue.config.js
 module.exports = {
-  lintOnSave:false,
   chainWebpack: config => {
     // 解决重新刷新页面或者重开启devServe都只取缓存，xx.work.js不更新的问题。
     // 具体讨论参考issues：https://github.com/webpack-contrib/worker-loader/issues/195
