@@ -736,7 +736,6 @@ const nest = (items, code = 0, link = 'parentCode') => { // code就是老爸的c
     .filter(v => v[link] === code)
     .map(v => ({ ...v, children: nest(items, v.code) }))
 }
-
 self.addEventListener('message', (e) => { // self代表子线程自身，即子线程的全局对象。
   let { data } = e
   let { type, root } = data
@@ -786,6 +785,7 @@ yarn add worker-loader -D
 ```
 修改vue.config.js配置：
 ```js
+// vue.config.js
 module.exports = {
   lintOnSave:false,
   chainWebpack: config => {
