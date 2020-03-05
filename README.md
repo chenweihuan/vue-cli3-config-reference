@@ -28,7 +28,7 @@ $ vue --version
 * [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
 * [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
 * [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
-* [:heavy_check_mark:dart-sass替换node-sass](#:ballot_box_with_check:dart-sass替换node-sass)
+* [:heavy_check_mark:dart-sass替换node-sass](#ballot_box_with_checkdart-sass替换node-sass)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
