@@ -28,6 +28,7 @@ $ vue --version
 * [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
 * [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
 * [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
+* [:heavy_check_mark:dart-sass替换node-sass](#:ballot_box_with_check:dart-sass替换node-sass)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -805,5 +806,30 @@ module.exports = {
   }
 }
 ```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:dart-sass替换node-sass
+解决 ```yarn``` 时，卡死在node-sass这里。
+```
+yarn remove node-sass
+yarn add sass -S
+```
+修改vue.config.js配置：
+```js
+// vue.config.js
+module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        implementation: require('sass')
+      }
+    }
+  }
+}
+```
+参考：  
+[https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39](https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39)
+
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
