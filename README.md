@@ -29,6 +29,7 @@ $ vue --version
 * [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
 * [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
 * [:heavy_check_mark:dart-sass替换node-sass](#ballot_box_with_checkdart-sass替换node-sass)
+* [:heavy_check_mark:开启CDN加速](#ballot_box_with_check开启CDN加速)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -831,5 +832,46 @@ module.exports = {
 参考：  
 [https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39](https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39)
 
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:开启CDN加速
+不用区分测试环境还是生产环境，统一都用cdn即可。修改index.html：
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    ...
+    <!-- element还需引入css文件 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.runtime.min.js"></script>
+    <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.min.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</body>
+</html>
+```
+修改vue.config.js配置：
+```js
+// vue.config.js
+module.exports = {
+    configureWebpack: {
+        externals: {
+            vue: "Vue",
+            vuex: "Vuex",
+            "vue-router": "VueRouter",
+            "element-ui": "ELEMENT"
+        }
+    }
+};
+```
+打包后抛到服务器上，打开开发者工具的network，如果看到http请求cdn，那么就代表配置成功了。但有可能会出现未知BUG，谨慎使用。
+<div align="center"><img src="./docs/imgs/cdn.png" width="400"/></div>
+
+参考：[开启CDN加速](https://juejin.im/post/5e54aeb76fb9a07ce31ee70b#heading-8)
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
