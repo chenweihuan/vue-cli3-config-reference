@@ -870,7 +870,7 @@ module.exports = {
 };
 ```
 打包后抛到服务器上，打开开发者工具的network，如果看到http请求cdn，那么就代表配置成功了。但有可能会出现未知BUG，谨慎使用。
-<div align="center"><img src="./docs/imgs/cdn.png" width="400"/></div>
+<div align="center"><img src="./docs/imgs/cdn.png" width="600"/></div>
 
 参考：[开启CDN加速](https://juejin.im/post/5e54aeb76fb9a07ce31ee70b#heading-8)
 
