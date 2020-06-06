@@ -31,6 +31,7 @@ $ vue --version
 * [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
 * [:heavy_check_mark:dart-sass替换node-sass](#ballot_box_with_checkdart-sass替换node-sass)
 * [:heavy_check_mark:开启CDN加速](#ballot_box_with_check开启CDN加速)
+* [:heavy_check_mark:缩小打包作用域](#ballot_box_with_check缩小打包作用域)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -920,3 +921,29 @@ module.exports = {
 参考：[开启CDN加速](https://juejin.im/post/5e54aeb76fb9a07ce31ee70b#heading-8)
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)  
+
+### :ballot_box_with_check:缩小打包作用域
+```js
+// vue.config.js
+module.exports = {
+    configureWebpack: {
+      resolve: {
+        // 合理使用别名
+        alias: {
+          '@': path.resolve(__dirname, './src/components')
+        },
+        // 指定在这些目录里寻找引用的库，提高搜索效率
+        modules: [
+          path.resolve(__dirname, './node_modules')
+        ],
+        // 尽可能减少后缀尝试的可能性，默认值为：[".js", ".json"]
+        extensions: ['.js'],
+        // 只采用 main 字段作为入口文件描述字段 
+        // 减少搜索步骤，需要考虑到所有运行时依赖的第三方模块的入口文件描述字段
+        mainFields: ['main']
+      }
+    }
+}
+```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
