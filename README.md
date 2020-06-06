@@ -12,6 +12,7 @@ $ vue --version
 
 ### :bookmark_tabs:目录
 * [:heavy_check_mark:取消eslint错误显示在浏览器中](#ballot_box_with_check取消eslint错误显示在浏览器中)
+* [:heavy_check_mark:启用构建速度分析工具](#ballot_box_with_check启用构建速度分析工具)
 * [:heavy_check_mark:启用bundle分析工具](#ballot_box_with_check启用bundle分析工具)
 * [:heavy_check_mark:lodash按需引入](#ballot_box_with_checklodash按需引入)
 * [:heavy_check_mark:moment按需引入语言包](#ballot_box_with_checkmoment按需引入语言包)
@@ -46,6 +47,49 @@ module.exports = {
 tip：修改配置重启后，如无效果，需要Ctrl+s保存文件，触发检查。  
 
 参考：[vue-cli3文档#lintonsave](https://cli.vuejs.org/zh/config/#lintonsave)  
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
+
+### :ballot_box_with_check:启用构建速度分析工具
+```
+$ yarn add speed-measure-webpack-plugin -D
+```
+配置vue.config.js，实例化一下SpeedMeasurePlugin，包住configureWebpack就可以啦。
+```js
+// vue.config.js
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
+const smp = new SpeedMeasurePlugin() // 可穿options参数，参考https://www.npmjs.com/package/speed-measure-webpack-plugin
+
+module.exports = {
+  configureWebpack: smp.wrap({
+    plugins: []
+  })
+}
+```
+跑一下```npm run build```，效果就出来啦！！！
+```
+ SMP  ⏱
+General output time took 1 min, 18.38 secs
+
+ SMP  ⏱  Plugins
+CompressionPlugin took 0.196 secs
+
+ SMP  ⏱  Loaders
+modules with no loaders took 55.73 secs
+  module count = 2293
+vuetify-loader, and
+cache-loader, and
+vue-loader, and
+eslint-loader took 45.29 secs
+  module count = 383
+cache-loader, and
+thread-loader, and
+babel-loader, and
+vuetify-loader, and
+cache-loader, and
+vue-loader took 40.36 secs
+...
+```
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)
 
