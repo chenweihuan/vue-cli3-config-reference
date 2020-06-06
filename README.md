@@ -58,7 +58,8 @@ $ yarn add speed-measure-webpack-plugin -D
 ```js
 // vue.config.js
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
-const smp = new SpeedMeasurePlugin() // 可穿options参数，参考https://www.npmjs.com/package/speed-measure-webpack-plugin
+// 可传options参数，参考https://www.npmjs.com/package/speed-measure-webpack-plugin
+const smp = new SpeedMeasurePlugin()
 
 module.exports = {
   configureWebpack: smp.wrap({
