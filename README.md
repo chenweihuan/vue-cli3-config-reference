@@ -32,6 +32,7 @@ $ vue --version
 * [:heavy_check_mark:dart-sass替换node-sass](#ballot_box_with_checkdart-sass替换node-sass)
 * [:heavy_check_mark:开启CDN加速](#ballot_box_with_check开启CDN加速)
 * [:heavy_check_mark:缩小打包作用域](#ballot_box_with_check缩小打包作用域)
+* [:heavy_check_mark:echarts按需加载](#ballot_box_with_checkecharts按需加载)
 
 
 ### :ballot_box_with_check:取消eslint错误显示在浏览器中
@@ -944,6 +945,86 @@ module.exports = {
       }
     }
 }
+```
+
+[:arrow_up:回到顶部](#vue-cli3的配置参考)
+
+### :ballot_box_with_check:echarts按需加载
+1. require（官方方案）
+```js
+// 引入 ECharts 主模块
+var echarts = require('echarts/lib/echarts');
+// 引入柱状图
+require('echarts/lib/chart/bar');
+// 引入提示框和标题组件
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('main'));
+// 绘制图表
+myChart.setOption({
+    title: {
+        text: 'ECharts 入门示例'
+    },
+    tooltip: {},
+    xAxis: {
+        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+    },
+    yAxis: {},
+    series: [{
+        name: '销量',
+        type: 'bar',
+        data: [5, 20, 36, 10, 10, 20]
+    }]
+});
+```
+具体参考[按需引入 ECharts 图表和组件](https://echarts.apache.org/zh/tutorial.html#%E5%9C%A8%20webpack%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20ECharts)
+
+2. babel-plugin-equire  
+
+添加babel-plugin-equire插件：
+```
+yarn add babel-plugin-equire -S
+```
+编辑 .babelrc 文件：
+```json
+{
+  "plugins": [
+    "equire"
+  ]
+}
+```
+新建文件 echarts.js ：
+```js
+const echarts = equire([
+  'bar',
+  'title',
+  'tooltip'
+])
+export default echarts
+```
+在需要用到 echarts 的地方引入 echarts.js 文件：
+```js
+import echarts from './echarts'
+
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('app'));
+// 绘制图表
+myChart.setOption({
+  title: {
+    text: 'ECharts 入门示例'
+  },
+  tooltip: {},
+  xAxis: {
+    data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+  },
+  yAxis: {},
+  series: [{
+    name: '销量',
+    type: 'bar',
+    data: [5, 20, 36, 10, 10, 20]
+  }]
+});
 ```
 
 [:arrow_up:回到顶部](#vue-cli3的配置参考)
