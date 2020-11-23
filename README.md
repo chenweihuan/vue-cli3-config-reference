@@ -33,7 +33,7 @@ $ vue --version
 * [:heavy_check_mark:&nbsp;&nbsp;开启CDN加速](#white_check_mark开启CDN加速)
 * [:heavy_check_mark:&nbsp;&nbsp;缩小打包作用域](#white_check_mark缩小打包作用域)
 * [:heavy_check_mark:&nbsp;&nbsp;echarts按需加载](#white_check_markecharts按需加载)
-* [:heavy_check_mark:&nbsp;&nbsp;预加载、vue-meat-info](#white_check_mark预加载、vue-meat-info)
+* [:heavy_check_mark:&nbsp;&nbsp;预加载、vue-meat-info](#white_check_mark预加载vue-meat-info)
 
 
 ### :white_check_mark:&nbsp;&nbsp;取消eslint错误显示在浏览器中
