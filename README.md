@@ -1,41 +1,41 @@
 ## vue-cli3的配置参考
 
-> :sunny: 初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。  
+> :sunny: &nbsp;&nbsp;初衷：关于vue-cli3配置参考，google出来的结果大多不理想。所以自己收集捣鼓总结vue-cli3-config-reference。  
 
-> :soon: [vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续会新开vue-cli4的分支，记录总结config-reference。  
+> :soon: &nbsp;&nbsp;[vue-cli](https://github.com/vuejs/vue-cli/releases)在2019-11-27发布了新版本v4.1.0，后续会新开vue-cli4的分支，记录总结config-reference。  
 
-> :on: 以下例子均基于@vue/cli v3.11.0
+> :on: &nbsp;&nbsp;以下例子均基于@vue/cli v3.11.0
 ```
 $ vue --version
 3.11.0
 ```
 
 ### :bookmark_tabs:目录
-* [:heavy_check_mark:取消eslint错误显示在浏览器中](#ballot_box_with_check取消eslint错误显示在浏览器中)
-* [:heavy_check_mark:启用构建速度分析工具](#ballot_box_with_check启用构建速度分析工具)
-* [:heavy_check_mark:启用bundle分析工具](#ballot_box_with_check启用bundle分析工具)
-* [:heavy_check_mark:lodash按需引入](#ballot_box_with_checklodash按需引入)
-* [:heavy_check_mark:moment按需引入语言包](#ballot_box_with_checkmoment按需引入语言包)
-* [:heavy_check_mark:启用静态压缩](#ballot_box_with_check启用静态压缩)
-* [:heavy_check_mark:启用js和css的sourceMap](#ballot_box_with_check启用js和css的sourceMap)
-* [:heavy_check_mark:DllPlugin配置](#ballot_box_with_checkDllPlugin配置)
-* [:heavy_check_mark:添加别名alias](#ballot_box_with_check添加别名alias)
-* [:heavy_check_mark:去除console.log](#ballot_box_with_check去除consolelog)
-* [:heavy_check_mark:配置CSS Modules](#ballot_box_with_check配置css-modules)
-* [:heavy_check_mark:向所有 Less 样式传入共享的全局变量](#ballot_box_with_check向所有-less-样式传入共享的全局变量)
-* [:heavy_check_mark:向所有 Scss 样式传入共享的全局变量](#ballot_box_with_check向所有-scss-样式传入共享的全局变量)
-* [:heavy_check_mark:向所有 Sass 样式传入共享的全局变量](#ballot_box_with_check向所有-sass-样式传入共享的全局变量)
-* [:heavy_check_mark:向所有 Stylus 样式传入共享的全局变量](#ballot_box_with_check向所有-stylus-样式传入共享的全局变量)
-* [:heavy_check_mark:配置proxy代理解决跨域](#ballot_box_with_check配置proxy代理解决跨域)
-* [:heavy_check_mark:解决第三方包的IE11兼容](#ballot_box_with_check解决第三方包的IE11兼容)
-* [:heavy_check_mark:使用web worker](#ballot_box_with_check使用web-worker)
-* [:heavy_check_mark:dart-sass替换node-sass](#ballot_box_with_checkdart-sass替换node-sass)
-* [:heavy_check_mark:开启CDN加速](#ballot_box_with_check开启CDN加速)
-* [:heavy_check_mark:缩小打包作用域](#ballot_box_with_check缩小打包作用域)
-* [:heavy_check_mark:echarts按需加载](#ballot_box_with_checkecharts按需加载)
+* [:heavy_check_mark:&nbsp;&nbsp;取消eslint错误显示在浏览器中](#white_check_mark取消eslint错误显示在浏览器中)
+* [:heavy_check_mark:&nbsp;&nbsp;启用构建速度分析工具](#white_check_mark启用构建速度分析工具)
+* [:heavy_check_mark:&nbsp;&nbsp;启用bundle分析工具](#white_check_mark启用bundle分析工具)
+* [:heavy_check_mark:&nbsp;&nbsp;lodash按需引入](#white_check_marklodash按需引入)
+* [:heavy_check_mark:&nbsp;&nbsp;moment按需引入语言包](#white_check_markmoment按需引入语言包)
+* [:heavy_check_mark:&nbsp;&nbsp;启用静态压缩](#white_check_mark启用静态压缩)
+* [:heavy_check_mark:&nbsp;&nbsp;启用js和css的sourceMap](#white_check_mark启用js和css的sourceMap)
+* [:heavy_check_mark:&nbsp;&nbsp;DllPlugin配置](#white_check_markDllPlugin配置)
+* [:heavy_check_mark:&nbsp;&nbsp;添加别名alias](#white_check_mark添加别名alias)
+* [:heavy_check_mark:&nbsp;&nbsp;去除console.log](#white_check_mark去除consolelog)
+* [:heavy_check_mark:&nbsp;&nbsp;配置CSS Modules](#white_check_mark配置css-modules)
+* [:heavy_check_mark:&nbsp;&nbsp;向所有 Less 样式传入共享的全局变量](#white_check_mark向所有-less-样式传入共享的全局变量)
+* [:heavy_check_mark:&nbsp;&nbsp;向所有 Scss 样式传入共享的全局变量](#white_check_mark向所有-scss-样式传入共享的全局变量)
+* [:heavy_check_mark:&nbsp;&nbsp;向所有 Sass 样式传入共享的全局变量](#white_check_mark向所有-sass-样式传入共享的全局变量)
+* [:heavy_check_mark:&nbsp;&nbsp;向所有 Stylus 样式传入共享的全局变量](#white_check_mark向所有-stylus-样式传入共享的全局变量)
+* [:heavy_check_mark:&nbsp;&nbsp;配置proxy代理解决跨域](#white_check_mark配置proxy代理解决跨域)
+* [:heavy_check_mark:&nbsp;&nbsp;解决第三方包的IE11兼容](#white_check_mark解决第三方包的IE11兼容)
+* [:heavy_check_mark:&nbsp;&nbsp;使用web worker](#white_check_mark使用web-worker)
+* [:heavy_check_mark:&nbsp;&nbsp;dart-sass替换node-sass](#white_check_markdart-sass替换node-sass)
+* [:heavy_check_mark:&nbsp;&nbsp;开启CDN加速](#white_check_mark开启CDN加速)
+* [:heavy_check_mark:&nbsp;&nbsp;缩小打包作用域](#white_check_mark缩小打包作用域)
+* [:heavy_check_mark:&nbsp;&nbsp;echarts按需加载](#white_check_markecharts按需加载)
 
 
-### :ballot_box_with_check:取消eslint错误显示在浏览器中
+### :white_check_mark:取消eslint错误显示在浏览器中
 运行```vue create```新建的项目，默认的```lintOnSave:'error'```，lint 错误不仅仅输入到命令行，也直接显示在浏览器中。设置```lintOnSave:true```即可。  
   * true：```eslint-loader``` 会将 lint 错误输出为编译警告。默认情况下，警告仅仅会被输出到命令行，且不会使得编译失败。
   * 'error'：这会强制 ```eslint-loader``` 将 lint 错误输出为编译错误，同时也意味着 lint 错误将会导致编译失败。
@@ -50,9 +50,9 @@ tip：修改配置重启后，如无效果，需要Ctrl+s保存文件，触发�
 
 参考：[vue-cli3文档#lintonsave](https://cli.vuejs.org/zh/config/#lintonsave)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:启用构建速度分析工具
+### :white_check_mark:启用构建速度分析工具
 ```
 $ yarn add speed-measure-webpack-plugin -D
 ```
@@ -94,9 +94,9 @@ vue-loader took 40.36 secs
 ...
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:启用bundle分析工具
+### :white_check_mark:启用bundle分析工具
 ```
 $ vue add webpack-bundle-analyzer
 ```
@@ -114,9 +114,9 @@ module.exports = {
 ```
 参考：[vue-cli-plugin-webpack-bundle-analyzer](https://www.npmjs.com/package/vue-cli-plugin-webpack-bundle-analyzer)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:lodash按需引入
+### :white_check_mark:lodash按需引入
 1. 只安装并引入你需要的lodash包
 ```
 $ yarn remove lodash
@@ -145,9 +145,9 @@ $ yarn add lodash-es -S
 import { cloneDeep } from 'lodash-es' 
 // 相当于 import cloneDeep from "lodash.clonedeep";
 ```
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:moment按需引入语言包
+### :white_check_mark:moment按需引入语言包
 moment支持123种语言，但它又不能事先知道你需要哪一种语言包，保险起见，打包的时候会把所有的语言包打包进去。默认是en，所以en这个语言包是肯定会自动打包进去的。
 ```js
 // 国际化示例
@@ -205,9 +205,9 @@ console.log(moment().format('LLL')) // 2019年11月19日早上8点46分
 | [date-fns](https://date-fns.org/)       |  78.4k(13.4k) without tree-shaking |YES|高|还不支持|32|
 |[dayjs](https://github.com/iamkun/dayjs)|6.5k(2.6k) without plugins|No|中|还不支持|23|
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:启用静态压缩
+### :white_check_mark:启用静态压缩
 启用压缩分为动态压缩和静态压缩。
 * 动态压缩是由nginx对每个请求进行压缩， 缺点是压缩过程占用cpu的资源，压缩比越高cpu占用越高，不需要修改webpack配置，修改nginx.conf文件即可。
 * 静态压缩：使用compression-webpack-plugin对打包文件进行压缩，会生成对应的.gz文件。nginx发现存在对应的.gz文件后，会使用该压缩文件，就不需要自己压缩一遍了。
@@ -263,9 +263,9 @@ module.exports = {
 
 参考：[webpack官网 devServer.compress](https://webpack.docschina.org/configuration/dev-server/#devserver-compress)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:启用js和css的sourceMap
+### :white_check_mark:启用js和css的sourceMap
 #### css.sourceMap
 为CSS开启sourceMap后，在检索元素查看css时，可以精确知道来自于哪一个文件，点击文件名，可以到达Sources面板查看该文件。
 
@@ -300,9 +300,9 @@ module.exports = {
 [更多devtool配置](https://webpack.js.org/configuration/devtool/#devtool)  
 
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:DllPlugin配置
+### :white_check_mark:DllPlugin配置
 vue 开发过程中，保存一次就会编译一次。利用DllPlugin，把一些库（一般不会去改动）提取出来，只编译修改的js文件，加快编译的速度。
 ```
 yarn add webpack-cli@^3.2.3 add-asset-html-webpack-plugin@^3.1.3 clean-webpack-plugin@^3.0.0  -D
@@ -385,10 +385,10 @@ module.exports = {
 
 参考：[vue-cli3 DllPlugin 提取公用库](https://juejin.im/post/5c7e76bfe51d4541e207e35a#comment)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
 
-### :ballot_box_with_check:添加别名alias
+### :white_check_mark:添加别名alias
 1. 配置configureWebpack
 ```js
 const path = require('path')
@@ -422,9 +422,9 @@ module.exports = {
 
 参考：[how to set alias](https://github.com/vuejs/vue-cli/issues/2398)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:去除console.log
+### :white_check_mark:去除console.log
 1. 使用 babel-plugin-transform-remove-console 插件
 ```
 yarn add babel-plugin-transform-remove-console -D
@@ -477,9 +477,9 @@ module.exports = {
 
 参考：[去除console.log](https://github.com/staven630/vue-cli4-config/tree/vue-cli3#log)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:配置CSS Modules
+### :white_check_mark:配置CSS Modules
 @vue/cli已经集成了CSS Modules，可以通过 ```<style module>``` 达到开箱即用。但如果想去掉文件名中的 .module或自定义生成 CSS Modules 模块的类名，还需要配置vue.config.js。  
 ```js
 // vue.config.js
@@ -512,9 +512,9 @@ ls\dist\validate.js:85:11)
 推荐阅读：[深入理解vue的scoped和module原理](https://juejin.im/post/5da2aa066fb9a04e3902e9dc)  
 参考： [vue-cli#css-modules](https://cli.vuejs.org/zh/guide/css.html#css-modules)
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:向所有 Less 样式传入共享的全局变量
+### :white_check_mark:向所有 Less 样式传入共享的全局变量
 使用less需要安装less和less-loader：
 ```
 yarn add less less-loader -D
@@ -569,9 +569,9 @@ module.exports = {
 [vue-cli-plugin-style-resources-loader](https://www.npmjs.com/package/vue-cli-plugin-style-resources-loader)    
 [向预处理器 Loader 传递选项](https://cli.vuejs.org/zh/guide/css.html#%E5%90%91%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8-loader-%E4%BC%A0%E9%80%92%E9%80%89%E9%A1%B9)
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:向所有 Scss 样式传入共享的全局变量
+### :white_check_mark:向所有 Scss 样式传入共享的全局变量
 使用scss需要安装sass-loader和node-sass：
 ```
 yarn add sass-loader node-sass -D
@@ -628,9 +628,9 @@ module.exports = {
 }
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:向所有 Sass 样式传入共享的全局变量
+### :white_check_mark:向所有 Sass 样式传入共享的全局变量
 使用style-resources-loader即可，简单粗暴：
 ```
 vue add style-resources-loader
@@ -660,9 +660,9 @@ $primary: green;
   color: $primary;
 </style>
 ```
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:向所有 Stylus 样式传入共享的全局变量
+### :white_check_mark:向所有 Stylus 样式传入共享的全局变量
 使用stylus需要安装stylus和stylus-loader：
 ```
 yarn add stylus stylus-loader -D
@@ -716,9 +716,9 @@ module.exports = {
 }
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:配置proxy代理解决跨域
+### :white_check_mark:配置proxy代理解决跨域
 如果你的前端应用和后端 API 服务器没有运行在同一个主机上，会出现跨域问题，你需要在开发环境下将 API 请求代理到 API 服务器。
 ```js
 // vue.config.js
@@ -737,9 +737,9 @@ module.exports = {
 };
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:解决第三方包的IE11兼容
+### :white_check_mark:解决第三方包的IE11兼容
 使用```vue create```构建项目后，已经能解决本地开发的IE11兼容问题，但并不能解决第三方库的IE11兼容问题。```@babel/polyfill```即将被废弃，使用```core-js```和```regenerator-runtime```代替。
 1. 全局引入
 ```
@@ -774,9 +774,9 @@ module.exports = {
 [core-js @babel/polyfill](https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md#babelpolyfill)  
 [vue-cli文档 - transpileDependencies](https://cli.vuejs.org/zh/config/#transpiledependencies)  
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:使用web worker
+### :white_check_mark:使用web worker
 在vue里使用web worker，下面是一个构建部门树的核心代码：
 ```js
 // tree.worker.js
@@ -855,9 +855,9 @@ module.exports = {
 }
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:dart-sass替换node-sass
+### :white_check_mark:dart-sass替换node-sass
 解决 ```yarn``` 时，卡死在node-sass这里。
 ```
 yarn remove node-sass
@@ -880,9 +880,9 @@ module.exports = {
 [https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39](https://dev.to/helleworld_/integrating-dart-node-sass-in-vuejs-4o39)
 
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:开启CDN加速
+### :white_check_mark:开启CDN加速
 不用区分测试环境还是生产环境，统一都用cdn即可。修改index.html：
 ```html
 <!DOCTYPE html>
@@ -921,9 +921,9 @@ module.exports = {
 
 参考：[开启CDN加速](https://juejin.im/post/5e54aeb76fb9a07ce31ee70b#heading-8)
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)  
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
 
-### :ballot_box_with_check:缩小打包作用域
+### :white_check_mark:缩小打包作用域
 ```js
 // vue.config.js
 module.exports = {
@@ -947,9 +947,9 @@ module.exports = {
 }
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
 
-### :ballot_box_with_check:echarts按需加载
+### :white_check_mark:echarts按需加载
 1. require（官方方案）
 ```js
 // 引入 ECharts 主模块
@@ -1027,4 +1027,4 @@ myChart.setOption({
 });
 ```
 
-[:arrow_up:回到顶部](#vue-cli3的配置参考)
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
