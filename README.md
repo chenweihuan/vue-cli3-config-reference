@@ -10,7 +10,7 @@ $ vue --version
 3.11.0
 ```
 
-### :bookmark_tabs:目录
+### :bookmark_tabs:&nbsp;&nbsp;目录
 * [:heavy_check_mark:&nbsp;&nbsp;取消eslint错误显示在浏览器中](#white_check_mark取消eslint错误显示在浏览器中)
 * [:heavy_check_mark:&nbsp;&nbsp;启用构建速度分析工具](#white_check_mark启用构建速度分析工具)
 * [:heavy_check_mark:&nbsp;&nbsp;启用bundle分析工具](#white_check_mark启用bundle分析工具)
@@ -33,6 +33,7 @@ $ vue --version
 * [:heavy_check_mark:&nbsp;&nbsp;开启CDN加速](#white_check_mark开启CDN加速)
 * [:heavy_check_mark:&nbsp;&nbsp;缩小打包作用域](#white_check_mark缩小打包作用域)
 * [:heavy_check_mark:&nbsp;&nbsp;echarts按需加载](#white_check_markecharts按需加载)
+* [:heavy_check_mark:&nbsp;&nbsp;预加载、vue-meat-info](#white_check_mark预加载、vue-meat-info)
 
 
 ### :white_check_mark:&nbsp;&nbsp;取消eslint错误显示在浏览器中
@@ -1028,3 +1029,107 @@ myChart.setOption({
 ```
 
 [:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)
+
+### :white_check_mark:&nbsp;&nbsp;预加载、vue-meat-info
+1. @vue/cli
+```
+vue add prerender-spa
+```
+接下来跟着命令行操作即可。
+```
+// 哪一个路由需要进行预加载配置，逗号隔开，且只适用于history路由模式
+? Which routes to pre-render? (separate with comma) (only with Vue Router history mode) (/) /,/home
+
+// 是否使用事件触发快照
+? Use a render event to trigger the snapshot? Yes
+? Use a headless browser to render the application? (recommended) Yes
+
+// 是否只在生产环境开启预渲染
+? Only use prerendering for production builds? (recommended) Yes
+```
+到这里就已经完成了，该添加的配置@vue/cli已经做完。跑一下```npm run build```，在dist里生成对应路由单独的HTML文件就是生效了（我这里是多生成一个文件 home.html）
+
+2. prerender-spa-plugin
+```
+npm install prerender-spa-plugin --save
+```
+配置vue.config.js：
+```js
+// vue.config.js
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
+const path = require('path');
+
+module.exports = {
+  configureWebpack: () => {
+    if (process.env.NODE_ENV !== 'production') return;
+    return {
+      plugins: [
+        new PrerenderSPAPlugin({
+          staticDir: path.join(__dirname, 'dist'),
+          routes: ['/', '/home',],
+          renderer: new Renderer({
+            inject: {
+              foo: 'bar'
+            },
+            headless: false,
+            // 在 main.js 中 document.dispatchEvent(new Event('render-event'))，两者的事件名称要对应上。
+            renderAfterDocumentEvent: 'x-app-rendered'
+          })
+        })
+      ]
+    };
+  },
+}
+```
+配置main.js：
+```js
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+new Vue({
+  router,
+  render: h => h(App),
+  mounted: () => document.dispatchEvent(new Event("x-app-rendered")),
+}).$mount('#app')
+```
+
+预渲染的作用是什么？
+> 如果你调研服务器端渲染 (SSR) 只是用来改善少数营销页面（例如 /, /about, /contact 等）的 SEO，那么你可能需要预渲染。无需使用 web 服务器实时动态编译 HTML（SSR），而是使用预渲染方式，在构建时简单地生成针对特定路由的静态 HTML 文件。优点是设置预渲染更简单，并可以将你的前端作为一个完全静态的站点。
+
+既然是为了SEO，那么还需要注意Meta信息的变化，vue-meta-info是个很好的抉择。
+```
+npm install vue-meta-info --save
+```
+全局引入 vue-meta-info：
+```
+import Vue from 'vue'
+import MetaInfo from 'vue-meta-info'
+
+Vue.use(MetaInfo)
+```
+组件内静态使用 metaInfo：
+```html
+<script>
+  export default {
+    metaInfo: {
+      title: 'My Example App', // set a title
+      meta: [{                 // set meta
+        name: 'keyWords',
+        content: 'My Example App'
+      }]
+      link: [{                 // set link
+        rel: 'asstes',
+        href: 'https://assets-cdn.github.com/'
+      }]
+    }
+  }
+</script>
+```
+如果你的 title 或者 meta 是异步加载的，也可以的，参考[处理 Vue 单页面 Meta SEO的另一种思路](https://zhuanlan.zhihu.com/p/29148760?group_id=890298677627879424)  
+
+参考：  
+[vue-cli-plugin-prerender-spa](https://github.com/SolarLiner/vue-cli-plugin-prerender-spa)  
+[Vue-Cli3.0怎么使用预渲染怎么配置prerender-spa-plugin](https://juejin.cn/post/6844903752126693383)
+
+[:arrow_up::&nbsp;&nbsp;回到顶部](#vue-cli3的配置参考)  
