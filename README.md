@@ -1038,14 +1038,14 @@ vue add prerender-spa
 接下来跟着命令行操作即可。
 ```
 // 哪一个路由需要进行预加载配置，逗号隔开，且只适用于history路由模式
-? Which routes to pre-render? (separate with comma) (only with Vue Router history mode) (/) /,/home
+? Which routes to pre-render? (separate with comma) (only with Vue Router history mode) /,/home
 
 // 是否使用事件触发快照
 ? Use a render event to trigger the snapshot? Yes
-? Use a headless browser to render the application? (recommended) Yes
+? Use a headless browser to render the application? Yes
 
 // 是否只在生产环境开启预渲染
-? Only use prerendering for production builds? (recommended) Yes
+? Only use prerendering for production builds? Yes
 ```
 到这里就已经完成了，该添加的配置@vue/cli已经做完。跑一下```npm run build```，在dist里生成对应路由单独的HTML文件就是生效了（我这里是多生成一个文件 home.html）
 
